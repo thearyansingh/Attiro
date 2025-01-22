@@ -12,10 +12,14 @@ import SignUp from './Pages/SignUp';
 import Product from './Pages/Product';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import Search from './Components/Search';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AppRoutes = () => (
   <div className=' px-[5vw] sm:px-[6vw] md:px-[9vw]'>
+    <ToastContainer />
   <Header/>
+  <Search/>
   <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/Collection" element={<Collection />} />

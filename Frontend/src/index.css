@@ -23,3 +23,8 @@ a.active hr{
         color:white;
     }
   }
+  @media screen and (max-width: 768px) {
+    .image-class {
+      display: block;  /* Ensure the image is visible */
+    }
+  }

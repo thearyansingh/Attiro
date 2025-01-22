@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX } from 'react-icons/fi';
 import Attiro from "../assets/Attiro.png"
-import {  NavLink } from 'react-router-dom';
+import {  Link, Links, NavLink } from 'react-router-dom';
+import { ShopContext } from '../Context/ShopContext';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
   const navItems = [
     { name: 'Home', to: '/' },
     { name: 'Collection', to: '/Collection' },
     { name: 'About', to: '/About' },
     { name: 'Contact', to: '/Contact' },
+    
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="top-0 left-0 z-50 bg-base pb-8 ">
-      <div className=" max-w-7xl py-1 mx-auto  lg:py-3 justify-between     ">
+    <nav className="top-0 left-0 z-50 bg-base pb-8  ">
+      <div className=" max-w-7xl  mx-auto  lg:py-3 justify-between  border-b-2   ">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className=" flex items-center "> 
@@ -26,7 +28,7 @@ const Header = () => {
           {/* Navigation Items - Desktop */}
           <div className="hidden md:flex items-center justify-center flex-1">
             <ul className="flex space-x-8">
-              {navItems.map((item) => (
+              {navItems.map((item) => ( 
                 <li key={item.name}>
                   <NavLink
                    to={item.to}
@@ -44,7 +46,7 @@ const Header = () => {
           <div className="hidden md:flex gap-4 items-center">
             <button className="p-2 rounded-full text-gray-600">
               <span className="sr-only">Search</span>
-              <FiSearch className="h-6 w-6" />
+              <FiSearch onClick={()=>setshowSearch(!showSearch)} className="h-6 w-6" />
             </button>
             <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -67,11 +69,11 @@ const Header = () => {
         <li><a>Logout</a></li>
       </ul>
     </div>
-            <button className="p-2 rounded-full relative text-gray-600">
-            
+            <Link to='/Cart' className="p-2 rounded-full relative text-gray-600">
+          
               <FiShoppingCart className="h-8 w-8" />
-              <p className='text-center absolute top-4 left-6 bg-black text-white rounded-full w-4 h-4 text-[10px]'>1</p>
-            </button>
+              <p className='text-center absolute top-4 left-6 bg-black text-white rounded-full w-4 h-4 text-[10px]'>{getcount()}</p>
+            </Link>
           </div>
 
           {/* Hamburger Menu Button */}
@@ -109,7 +111,7 @@ const Header = () => {
             <div className="flex items-center px-5">
               <button className="flex-shrink-0 p-1 rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500">
                 <span className="sr-only">Search</span>
-                <FiSearch className="h-6 w-6" />
+                <FiSearch onClick={()=>setshowSearch(!showSearch)} className="h-6 w-6" />
               </button>
               <button className="ml-auto flex-shrink-0 p-1 rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500">
                 <span className="sr-only">Profile</span>

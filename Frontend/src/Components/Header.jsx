@@ -22,7 +22,7 @@ const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className=" flex items-center "> 
-            <img className="h-28 w-32" src={Attiro} alt="Logo" />
+            <img className="h-28 w-32" loading='lazy' src={Attiro} alt="Logo" />
           </div>
 
           {/* Navigation Items - Desktop */}
@@ -44,14 +44,16 @@ const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
 
           {/* Icons */}
           <div className="hidden md:flex gap-4 items-center">
-            <button className="p-2 rounded-full text-gray-600">
+            <Link to='/Collection' className="p-2 rounded-full text-gray-600">
               <span className="sr-only">Search</span>
+              
               <FiSearch onClick={()=>setshowSearch(!showSearch)} className="h-6 w-6" />
-            </button>
+            </Link>
             <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
+          loading='lazy'
             alt="Tailwind CSS Navbar component"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
         </div>

@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Title from '../Components/Title'
 import TotalAmount from '../Components/TotalAmount'
 import { useContext } from 'react'
 import { ShopContext } from "../Context/ShopContext";
 import { useForm } from "react-hook-form";
+import { assets } from '../assets/assets';
+import { Link } from 'react-router-dom';
 const PlaceOrder = () => {
+  const [method,setMethod]=useState('');
   const {
-     
+  
       currency,
       grandTotal,
       totalcart,
@@ -104,9 +107,30 @@ const PlaceOrder = () => {
 
 <div className='w-full flex flex-col items-end gap-4 py-6 '>
 <TotalAmount currency={currency} subTotal={totalcart} shippingFee={deliveryprice} Total={grandTotal} />
-<button type='submit'  className="w-1/3 text-[10px] sm:text-sm   px-2 py-2 bg-black text-white">
+<Title text1={"PAYMENT"} text2={"METHOD"}/>
+
+<div className='flex justify-start gap-2 '>
+  <div onClick={(()=>setMethod('Stripe'))} className='flex gap-2 px-4  items-center border-[2px]'>
+    <p className={`h-3 w-3 rounded-full border-[2px] border-gray-400 ${method==='Stripe'?'bg-green-500':''}`}></p>
+  <img  src={assets.stripe_logo} className='w-16 h-7 cursor-pointer' alt="" />
+  </div>
+  <div className='flex gap-2 px-4 py-2 border-[2px] items-center' onClick={(()=>setMethod('Razorpay'))}>
+  <p className={`h-3 w-3 rounded-full border-[2px] border-gray-400 ${method==='Razorpay'?'bg-green-500':''}`}></p>
+
+  <img  src={assets.razorpay_logo} className='w-16 h-5 cursor-pointer' alt="" />
+    
+  </div>
+  <div onClick={(()=>setMethod('COD'))} className='flex gap-2 px-4 py-2 border-[2px] items-center' >
+  <p className={`h-3 w-3 rounded-full border-[2px] border-gray-400 ${method==='COD'?'bg-green-500':''}`}></p>
+
+  <p className='font-semibold text-gray-600  cursor-pointer'>Cash On Delivery</p>
+
+  </div>
+
+</div>
+<Link to='/MyOrder' type='submit'  className="w-1/3 text-[10px] sm:text-sm   px-2 py-2 bg-black text-white">
         PROCEED TO CHECKOUT
-      </button>
+      </Link>
 
     </div>
 

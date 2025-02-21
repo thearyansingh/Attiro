@@ -7,14 +7,14 @@ const Collection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const { products, search } = useContext(ShopContext);
+  const { product, search } = useContext(ShopContext);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [sortOption, setSortOption] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
-console.log(products);
+console.log(product);
 
   // Detect screen size for mobile responsiveness
   useEffect(() => {
@@ -53,21 +53,22 @@ console.log(products);
     );
   };
 
-  // Filtered products based on selected categories and types
-  const filteredProducts =
+  // Filtered product based on selected categories and types
+  const filteredproduct =
     (selectedCategories.length === 0 && selectedTypes.length === 0)
-      ? products.filter((product) =>
+      ? product.filter((product) =>
           product.name.toLowerCase().includes(search.toLowerCase())
         )
-      : products.filter(
+      : product.filter(
           (item) =>
             (selectedCategories.length === 0 || selectedCategories.includes(item.category)) &&
             (selectedTypes.length === 0 || selectedTypes.includes(item.subCategory)) &&
             item.name.toLowerCase().includes(search.toLowerCase())
+
         );
 
   // Sorting logic
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  const sortedproduct = [...filteredproduct].sort((a, b) => {
     if (sortOption === "lowToHigh") return a.price - b.price;
     if (sortOption === "highToLow") return b.price - a.price;
     return 0; // No sorting
@@ -76,14 +77,15 @@ console.log(products);
   // Pagination logic
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = sortedProducts.slice(firstPostIndex, lastPostIndex);
+  const currentPosts = sortedproduct.slice(firstPostIndex, lastPostIndex);
 
-  const totalPages = Math.ceil(sortedProducts.length / postsPerPage); // Total pages
+  const totalPages = Math.ceil(sortedproduct.length / postsPerPage); // Total pages
   const pages = [...Array(totalPages).keys()].map((i) => i + 1); // Pages array
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
   };
+  console.log(selectedCategories)
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 pt-8">
@@ -109,8 +111,8 @@ console.log(products);
               <div className="flex gap-2">
                 <input
                   type="checkbox"
-                  onChange={() => handleCategoryCheckboxChange("Women")}
-                  checked={selectedCategories.includes("Women")}
+                  onChange={() => handleCategoryCheckboxChange("Womens")}
+                  checked={selectedCategories.includes("Womens")}
                 />
                 <p>Women</p>
               </div>

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Cart = () => {
   const {
-    products,
+    product,
     currency,
     CartItem,
     getUpdate,
@@ -16,6 +16,7 @@ const Cart = () => {
     deliveryprice,
   } = useContext(ShopContext);
   const [cartData, SetCartdata] = useState([]);
+
 
   useEffect(() => {
     let tempData = [];
@@ -48,7 +49,7 @@ const Cart = () => {
       {/* Cart Items */}
       <div>
         {cartData.map((item, index) => {
-          const addedProduct = products.find(
+          const addedProduct = product.find(
             (product) => product._id === item._id
           );
           return (

@@ -13,6 +13,8 @@ const App = () => {
   useEffect(()=>{
 localStorage.setItem("token",token)
   },[token])
+  
+  
   return (
     <div className='bg-gray-50 min-h-screen'>
       {
@@ -24,8 +26,8 @@ token===""?<Login setToken={funToken}/>:(<>
    <div className='mx-auto my-8 w-[70%]'>
    <Routes>
    <Route path="/" element={<Addproduct setToken={token}/>} />
-   <Route path="/ListProducts" element={<List/>} />
-   <Route path="/Orders" element={<Orders/>} />
+   <Route path="/ListProducts" element={<List Token={token}/>} />
+   <Route path="/Orders" element={<Orders />} />
  </Routes>
    </div>
 

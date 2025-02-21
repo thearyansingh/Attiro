@@ -1,7 +1,8 @@
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
-import { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
+
 export const ShopContext = createContext();
 
 const ShopProvider = (props) => {
@@ -9,35 +10,26 @@ const ShopProvider = (props) => {
   const deliveryprice = 10;
   const [search, setsearch] = useState("");
   const [showSearch, setshowSearch] = useState(false);
-  const [CartItem, setCartItems] = useState({});
+  const [CartItem, setCartItems] = useState(() => {
+    // Load cart data from localStorage when the component mounts
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || {};
+    return savedCart;
+  });
+
   const [totalcart, settotal] = useState(0);
   const [grandTotal, setGrand] = useState(0);
+  const [product, setproduct] = useState([]);
 
-  const cartTotal = () => {
-    let total = 0;
-    for (const itemid in CartItem) {
-      for (const quantity in CartItem[itemid]) {
-        const quant = CartItem[itemid][quantity];
-        const product = products.find((e) => e._id === itemid);
-        if (product) {
-          total += quant * product?.price;
-        }
-      }
-    }
-    settotal(total);
-    if (total > 0) {
-      setGrand(total + deliveryprice);
-    } else {
-      setGrand(total + 0);
-    }
-  };
+  // Function to update cart total
 
+
+  // Function to add items to cart
   const addtoCart = async (itemId, size) => {
-    //and this is to add the product to the cart
     if (!size) {
-      toast.error("select the size");
+      toast.error("Select the size");
       return;
     }
+
     const cartData = structuredClone(CartItem);
 
     if (cartData[itemId]) {
@@ -47,45 +39,76 @@ const ShopProvider = (props) => {
         cartData[itemId][size] = 1;
       }
     } else {
-      cartData[itemId] = {};
-      cartData[itemId][size] = 1;
+      cartData[itemId] = { [size]: 1 };
     }
 
     setCartItems(cartData);
-
-    localStorage.setItem("cart", JSON.stringify(cartData));
-    cartTotal();
   };
+
+  // Function to get cart count
   const getcount = () => {
-    // to count the quantity
     let cartitems = 0;
     for (const items in CartItem) {
       for (const item in CartItem[items]) {
-        try {
-          if (CartItem[items][item] > 0) {
-            cartitems += CartItem[items][item];
-          }
-        } catch (error) {}
+        if (CartItem[items][item] > 0) {
+          cartitems += CartItem[items][item];
+        }
       }
     }
     return cartitems;
   };
 
-  useEffect(() => {
-    console.log(CartItem);
-    cartTotal();
-  }, [CartItem]);
-
+  // Function to update cart item quantity
   const getUpdate = async (itemId, size, quantity) => {
-    // this code is for the quantity
     const cartData = structuredClone(CartItem);
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
-    cartTotal();
   };
 
+  const cartTotal = () => {
+    let total = 0;
+    for (const itemid in CartItem) {
+      let products = product.find((e) => e._id === itemid);
+
+      for (const quantity in CartItem[itemid]) {
+
+        try {
+      if(CartItem[itemid][quantity]>0){
+        total+=products.price* CartItem[itemid][quantity];
+      }
+
+        } catch (error) {
+          
+        }
+       
+      }
+    }
+    settotal(total);
+    setGrand(total > 0 ? total + deliveryprice : 0);
+  };
+
+  // Persist cart data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(CartItem));
+    cartTotal();
+  }, [CartItem]);
+
+  // Fetch products from API
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/product/listProduct");
+        setproduct(response?.data?.allProduct);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    getProducts();
+  }, []);
+
   const value = {
-    products,
+    product,
     currency,
     deliveryprice,
     search,
@@ -99,8 +122,8 @@ const ShopProvider = (props) => {
     totalcart,
     grandTotal,
   };
-  return (
-    <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>
-  );
+
+  return <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>;
 };
+
 export default ShopProvider;

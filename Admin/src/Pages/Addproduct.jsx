@@ -54,13 +54,16 @@ const Addproduct = ({setToken}) => {
           },
         }
       );
+     
   
       toast.success("Product added successfully!");
       console.log(response.data);
   
     } catch (error) {
       console.log(error)
+     setTimeout(() => {
       toast.error(error.response?.data?.message || "Failed to add product");
+     }, 2000); 
     }
   };
 
@@ -129,7 +132,7 @@ const Addproduct = ({setToken}) => {
   <label htmlFor="bestseller">Add to Bestseller</label>
 </div>
 
-<button  type='submit' className='px-2 py-2 w-[200px] text-lg font-semibold bg-black text-white'>Add Product</button>
+<button onClick={(()=>{toast.success("Wait for Sometime",{autoClose:2000})})}  type='submit' className='px-2 py-2 w-[200px] text-lg font-semibold bg-black text-white'>Add Product</button>
 
         </form>
     </div>

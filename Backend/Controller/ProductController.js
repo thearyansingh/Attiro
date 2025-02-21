@@ -1,5 +1,6 @@
 import productModel from "../Models/Product.js";
 import { v2 as cloudinary } from "cloudinary";
+
 const addProduct = async (req, res) => {
   try {
     const {
@@ -74,12 +75,13 @@ const singleProduct = async (req,res) => {
 
 const removeProduct = async (req,res) => {
     try {
+    
         const product=await productModel.findById(req.body.id);
         if(!product){
             res.json({success:false,message:"product not found"})
         }
         const DeleteProduct=await productModel.findByIdAndDelete(req.body.id);
-            res.status(200).json({message:"Deleted products",DeleteProduct})
+            res.status(200).json({suceess:true,message:"Deleted products",DeleteProduct})
             } catch (error) {
                 res.status(500).json({message:"something went wrong"})
             }  

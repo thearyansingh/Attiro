@@ -8,13 +8,13 @@ import ProductItem from '../Components/ProductItem';
 const Product = () => {
 const {id}=useParams();
 
-const {products,currency,addtoCart}=useContext(ShopContext);
+const {product,currency,addtoCart}=useContext(ShopContext);
 const [singleProduct, setsingleProduct] = useState(null)
 const [image, setimage] = useState('')
 const [sizes,setSizes]=useState('')
-
+// console.log(id)
 const fetchProducts=async()=>{
-  products.map((item)=>{
+  product.map((item)=>{
     if(item._id===id){
       setsingleProduct(item)
 setimage(item.image[0])
@@ -25,7 +25,7 @@ setimage(item.image[0])
 }
 useEffect(() => {
   fetchProducts();
-}, [id,products])
+}, [id,product])
 
 useEffect(() => {
   if (singleProduct) {
@@ -38,7 +38,7 @@ useEffect(() => {
 
 
   return (
-    products?
+    product?
     <div className=' flex flex-col '>
        <div className=' flex flex-col sm:flex-row max-w-screen-xl gap-16   my-8'>
   {/* products */}
@@ -90,7 +90,7 @@ useEffect(() => {
   <Title text1={"Related"} text2={"Products"}/>
   <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
     {
-      products
+      product
       ?.filter((product) => product.category === singleProduct?.category  && singleProduct?.subCategory) // Filter by category
       .slice(0, 4) // Limit to first 3 items
       .map((item, index) =>(

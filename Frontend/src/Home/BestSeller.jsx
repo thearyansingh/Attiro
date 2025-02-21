@@ -24,15 +24,15 @@ const BestSeller = () => {
           items: 1
         }
       };
-    const {products}=useContext(ShopContext);
+    const {product}=useContext(ShopContext);
     const [BestSell, setBestSeller] = useState([])
    
     useEffect(() => {
-     const bestProduct=products.filter((item)=>(item.bestseller))
+     const bestProduct=product.filter((item)=>(item.bestSeller))
       setBestSeller(bestProduct);
     }, [])
-    console.log(BestSell);
-    
+    // console.log(BestSell);
+    console.log(product)
     
     
   return (

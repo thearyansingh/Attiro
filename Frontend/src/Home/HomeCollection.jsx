@@ -2,15 +2,14 @@ import React, { useContext,useState,useEffect } from 'react'
 import Title from '../Components/Title'
 import { ShopContext } from '../Context/ShopContext';
 import ProductItem from '../Components/ProductItem';
-const HomeCollection = () => {
-  const {products}=useContext(ShopContext)
-  const [latestProduct, setlatestProduct] = useState([]);
- 
-  useEffect(() => {
-   setlatestProduct(products.slice(0,10));
-  }, [])
-console.log(latestProduct);
 
+const HomeCollection = () => {
+  const {product}=useContext(ShopContext)
+  const [latestProduct, setlatestProduct] = useState([]);
+
+ 
+
+  console.log(product)
   
   
   return (
@@ -21,7 +20,7 @@ console.log(latestProduct);
         </div>
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 gap-y-4'>
           {
-            latestProduct?.map((item)=>(
+            product?.slice(0,10).map((item)=>(
              <ProductItem key={item._id} id={item._id} name={item.name} image={item.image} price={item.price}   />
             )
             )

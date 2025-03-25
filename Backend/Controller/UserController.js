@@ -44,7 +44,7 @@ const Register = async (req, res) => {
     }
 
     // Validate password length
-    if (password.length > 8) {
+    if (password.length<4) {
       return res.json({
         success: false,
         message: "Password must be at least 8 characters long",
@@ -73,7 +73,7 @@ const Register = async (req, res) => {
       userToken,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error", error });
+    res.status(500).json({ success: false, message: "server error", error });
   }
 };
 

@@ -3,9 +3,12 @@ import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX } from 'react-icons/fi';
 import Attiro from "../assets/Attiro.png"
 import {  Link, Links, NavLink } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
+import { toast } from 'react-toastify';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
+    
+    const {setToken,setCartItems,token}=useContext(ShopContext);
+const {showSearch,setShowSearch,getcount}=useContext(ShopContext);
   const navItems = [
     { name: 'Home', to: '/' },
     { name: 'Collection', to: '/Collection' },
@@ -47,7 +50,7 @@ const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
             <Link to='/Collection' className="p-2 rounded-full text-gray-600">
               <span className="sr-only">Search</span>
               
-              <FiSearch onClick={()=>setshowSearch(!showSearch)} className="h-6 w-6" />
+              <FiSearch onClick={()=>setShowSearch(!showSearch)} className="h-6 w-6" />
             </Link>
             <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -62,20 +65,36 @@ const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li>
-          <a className="justify-between">
+          <Link to="/Login"  className="justify-between">
             Profile
             <span className="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+          </Link>
+        </li> 
+        <li>
+          <Link to="/Myorder"  className="justify-between">
+          Orders
+           
+          </Link>
+        </li> 
+       {(
+         token? <li onClick={()=>{
+          localStorage.removeItem('token')
+          setToken("")
+          setCartItems({})
+          toast.success("Logged out")}}><a>Logout</a></li>:<></>
+       )}
       </ul>
     </div>
-            <Link to='/Cart' className="p-2 rounded-full relative text-gray-600">
+    {
+      (
+      token? <Link to='/Cart' className="p-2 rounded-full relative text-gray-600">
           
-              <FiShoppingCart className="h-8 w-8" />
-              <p className='text-center absolute top-4 left-6 bg-black text-white rounded-full w-4 h-4 text-[10px]'>{getcount()}</p>
-            </Link>
+      <FiShoppingCart className="h-8 w-8" />
+      <p className='text-center absolute top-4 left-6 bg-black text-white rounded-full w-4 h-4 text-[10px]'>{getcount()}</p>
+    </Link>:<></>  
+      )
+    }
+           
           </div>
 
           {/* Hamburger Menu Button */}
@@ -113,10 +132,10 @@ const {showSearch,setshowSearch,getcount}=useContext(ShopContext);
             <div className="flex items-center px-5">
               <button className="flex-shrink-0 p-1 rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500">
                 <span className="sr-only">Search</span>
-                <FiSearch onClick={()=>setshowSearch(!showSearch)} className="h-6 w-6" />
+                <FiSearch onClick={()=>setShowSearch(!showSearch)} className="h-6 w-6" />
               </button>
               <button className="ml-auto flex-shrink-0 p-1 rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500">
-                <span className="sr-only">Profile</span>
+                <Link to="/Login"  className="sr-only">Profile</Link>
                 <FiUser className="h-6 w-6" />
               </button>
               <button className="ml-3 flex-shrink-0 p-1 rounded-full text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500">

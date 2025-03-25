@@ -1,5 +1,5 @@
 import React, { useContext,useState,useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import ShopProvider, { ShopContext } from '../Context/ShopContext';
 import Title from '../Components/Title';
 import { assets } from '../assets/assets';
@@ -8,7 +8,7 @@ import ProductItem from '../Components/ProductItem';
 const Product = () => {
 const {id}=useParams();
 
-const {product,currency,addtoCart}=useContext(ShopContext);
+const {product,currency,addtoCart,token,Navigate}=useContext(ShopContext);
 const [singleProduct, setsingleProduct] = useState(null)
 const [image, setimage] = useState('')
 const [sizes,setSizes]=useState('')
@@ -77,7 +77,8 @@ useEffect(() => {
   ))
 }
 </div>
-<button className='text-white bg-black p-4 sm:w-1/4 hover:bg-gray-500 duration-300  ' onClick={()=>addtoCart(singleProduct?._id,sizes)}>ADD TO CART</button>
+
+<button className='text-white bg-black p-4 sm:w-1/4 hover:bg-gray-500 duration-300  ' onClick={()=>token?addtoCart(singleProduct?._id,sizes,token):Navigate("/Login")}>ADD TO CART</button>
 
 
    </div>

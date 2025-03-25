@@ -5,6 +5,8 @@ import connectDb from './Config/mongo.js'
 import cloudinaryConnect from './Config/Cloudinary.js'
 import { UserRouter } from './routes/UserRoutes.js'
 import productRoute from './routes/ProductRoute.js'
+import cartroute from './routes/cartRoute.js'
+import orderRoute from './routes/orderRoutes.js'
 
 //App Config
 const app=express()
@@ -21,6 +23,9 @@ app.use(cors())
 // api endpoints
 app.use("/api/user",UserRouter);
 app.use("/api/product",productRoute);
+app.use("/api/cart",cartroute)
+app.use("/api/Orders",orderRoute)
+
 
 
 app.get('/',(req,res)=>{
